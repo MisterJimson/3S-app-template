@@ -11,10 +11,9 @@
 
 	let profileForm: HTMLFormElement;
 	let loading = false;
-	let fullName: string = profile?.full_name ?? '';
-	let username: string = profile?.username ?? '';
-	let website: string = profile?.website ?? '';
-	let avatarUrl: string = profile?.avatar_url ?? '';
+	let fullName = profile?.full_name ?? null;
+	let username = profile?.username ?? null;
+	let website = profile?.website ?? null;
 
 	const handleSubmit: SubmitFunction = () => {
 		loading = true;
@@ -32,47 +31,64 @@
 	};
 </script>
 
-<div class="form-widget">
+<div class="mx-auto container p-4">
+	<h1 class="mb-4">Account Information</h1>
 	<form
-		class="form-widget"
+		id="account-info"
 		method="post"
 		action="?/update"
 		use:enhance={handleSubmit}
 		bind:this={profileForm}
-	>
-		<div>
-			<label for="email">Email</label>
-			<input id="email" type="text" value={session.user.email} disabled />
-		</div>
+	/>
+	<form id="sign-out" method="post" action="?/signout" use:enhance={handleSignOut} />
 
-		<div>
-			<label for="fullName">Full Name</label>
-			<input id="fullName" name="fullName" type="text" value={form?.fullName ?? fullName} />
-		</div>
+	<label for="email" class="label">Email</label>
+	<input
+		id="email"
+		form="account-info"
+		type="text"
+		class="input mb-4"
+		value={session.user.email}
+		disabled
+	/>
+	<label for="fullName" class="label">Full Name</label>
+	<input
+		id="fullName"
+		form="account-info"
+		name="fullName"
+		type="text"
+		class="input mb-4"
+		value={form?.fullName ?? fullName}
+	/>
+	<label for="username" class="label">Username</label>
+	<input
+		id="username"
+		form="account-info"
+		name="username"
+		type="text"
+		class="input mb-4"
+		value={form?.username ?? username}
+	/>
+	<label for="website" class="label">Website</label>
+	<input
+		id="website"
+		form="account-info"
+		name="website"
+		type="url"
+		class="input mb-4"
+		value={form?.website ?? website}
+	/>
+	<div>
+		<input
+			type="submit"
+			form="account-info"
+			class="btn variant-filled-primary"
+			value={loading ? 'Loading...' : 'Update'}
+			disabled={loading}
+		/>
 
-		<div>
-			<label for="username">Username</label>
-			<input id="username" name="username" type="text" value={form?.username ?? username} />
-		</div>
-
-		<div>
-			<label for="website">Website</label>
-			<input id="website" name="website" type="url" value={form?.website ?? website} />
-		</div>
-
-		<div>
-			<input
-				type="submit"
-				class="button block primary"
-				value={loading ? 'Loading...' : 'Update'}
-				disabled={loading}
-			/>
-		</div>
-	</form>
-
-	<form method="post" action="?/signout" use:enhance={handleSignOut}>
-		<div>
-			<button class="button block" disabled={loading}>Sign Out</button>
-		</div>
-	</form>
+		<button class="btn variant-filled-secondary ml-4" form="sign-out" disabled={loading}
+			>Sign Out</button
+		>
+	</div>
 </div>

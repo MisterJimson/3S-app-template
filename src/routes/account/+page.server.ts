@@ -9,7 +9,7 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 
 	const { data: profile } = await supabase
 		.from('profiles')
-		.select(`username, full_name, website, avatar_url`)
+		.select(`username, full_name, website`)
 		.eq('id', session.user.id)
 		.single();
 
@@ -18,11 +18,13 @@ export const load = async ({ locals: { supabase, getSession } }) => {
 
 export const actions = {
 	update: async ({ request, locals: { supabase, getSession } }) => {
+		console.log('update');
 		const formData = await request.formData();
-		const fullName = formData.get('fullName') as string;
-		const username = formData.get('username') as string;
-		const website = formData.get('website') as string;
-		const avatarUrl = formData.get('avatarUrl') as string;
+		const fullName = formData.get('fullName') as string | null;
+		const username = formData.get('username') as string | null;
+		const website = formData.get('website') as string | null;
+
+		console.log(fullName, username, website);
 
 		const session = await getSession();
 
@@ -33,27 +35,25 @@ export const actions = {
 
 		const { error } = await supabase.from('profiles').upsert({
 			id: session?.user.id,
-			full_name: fullName,
-			username,
-			website,
-			avatar_url: avatarUrl,
+			full_name: fullName ? fullName : null,
+			username: username ? username : null,
+			website: website ? website : null,
 			updated_at: new Date().toISOString()
 		});
 
 		if (error) {
+			console.error(error);
 			return fail(500, {
 				fullName,
 				username,
-				website,
-				avatarUrl
+				website
 			});
 		}
 
 		return {
 			fullName,
 			username,
-			website,
-			avatarUrl
+			website
 		};
 	},
 	signout: async ({ locals: { supabase, getSession } }) => {
