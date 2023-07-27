@@ -1,7 +1,7 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
 	import { Auth } from '@supabase/auth-ui-svelte';
-	import { ThemeMinimal, ThemeSupa } from '@supabase/auth-ui-shared';
+	import { ThemeMinimal } from '@supabase/auth-ui-shared';
 
 	export let data;
 </script>
