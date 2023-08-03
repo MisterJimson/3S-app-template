@@ -1,4 +1,3 @@
-<!-- src/routes/+page.svelte -->
 <script lang="ts">
 	import { Auth } from '@supabase/auth-ui-svelte';
 	import { ThemeMinimal } from '@supabase/auth-ui-shared';
