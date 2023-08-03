@@ -13,7 +13,7 @@
 		"test:unit": "vitest",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier . --write .",
-		"gen-types": "supabase gen types typescript --local > src/types/database.types.ts"
+		"gen-types": "supabase gen types typescript --local > src/types/database.types.ts && npm run format"
 	},
 	"dependencies": {
 		"@supabase/auth-helpers-sveltekit": "^0.10.1",
